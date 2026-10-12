@@ -1,0 +1,1542 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f8b927">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🌿%3C/text%3E%3C/svg%3E">
+  <title>空氣污染健康影響大挑戰</title>
+  <style>
+    :root {
+      --ink: #202124;
+      --muted: #66665f;
+      --paper: #fffdf7;
+      --cream: #fff8e4;
+      --yellow: #ffe07a;
+      --yellow-strong: #f8b927;
+      --yellow-border: #c99200;
+      --orange: #d66816;
+      --orange-dark: #97440e;
+      --green: #237d44;
+      --red: #b3261e;
+      --line: #676861;
+      --shadow: 0 18px 48px rgba(64, 42, 8, .18);
+      font-family: "Microsoft JhengHei", "微軟正黑體", "Noto Sans TC", Arial, sans-serif;
+      color: var(--ink);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body { min-height: 100%; }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    button, input, select { font: inherit; }
+
+    button { -webkit-tap-highlight-color: transparent; }
+
+    button:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    [tabindex="0"]:focus-visible {
+      outline: 4px solid #1769aa;
+      outline-offset: 3px;
+    }
+
+    .screen {
+      min-height: 100svh;
+      width: 100%;
+    }
+
+    .hero-screen {
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background:
+        linear-gradient(rgba(255,255,255,.06), rgba(255,255,255,.06)),
+        url("背景圖.png") center / cover no-repeat;
+    }
+
+    .glass-panel {
+      width: min(470px, calc(100vw - 32px));
+      padding: clamp(26px, 5vw, 44px);
+      border: 1px solid rgba(255,255,255,.8);
+      border-radius: 30px;
+      background: rgba(255, 252, 240, .88);
+      box-shadow: 0 24px 70px rgba(31, 28, 20, .32);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .eyebrow {
+      margin: 0 0 8px;
+      color: #865013;
+      font-size: .82rem;
+      font-weight: 800;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    h1, h2, h3, p { overflow-wrap: anywhere; }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(2rem, 6vw, 3.35rem);
+      line-height: 1.13;
+      letter-spacing: -.03em;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: clamp(1.65rem, 4vw, 2.45rem);
+      line-height: 1.2;
+    }
+
+    .lead {
+      margin: 0 0 28px;
+      color: #4f4b42;
+      font-size: 1.02rem;
+      line-height: 1.75;
+    }
+
+    .field { margin: 0 0 18px; }
+
+    .field label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 800;
+    }
+
+    .field input,
+    .field select {
+      width: 100%;
+      min-height: 52px;
+      border: 2px solid #9a927d;
+      border-radius: 13px;
+      background: rgba(255,255,255,.94);
+      padding: 11px 14px;
+      color: var(--ink);
+      font-size: 1rem;
+    }
+
+    .field-error {
+      min-height: 24px;
+      margin: 7px 0 0;
+      color: var(--red);
+      font-weight: 800;
+    }
+
+    .rotate-notice {
+      display: none;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 18px;
+      border: 2px solid #b76a10;
+      border-radius: 14px;
+      padding: 11px 13px;
+      background: #fff1cf;
+      color: #713b06;
+      font-weight: 900;
+      line-height: 1.45;
+    }
+
+    .rotate-icon { flex: 0 0 auto; font-size: 1.55rem; }
+
+    .action-button {
+      min-height: 56px;
+      max-width: 100%;
+      border: 5px solid var(--orange-dark);
+      border-radius: 25px;
+      padding: 10px 32px;
+      background: var(--orange);
+      color: #fff;
+      box-shadow: inset 0 2px 0 rgba(255,255,255,.16), 0 4px 0 #743208;
+      font-size: 1.05rem;
+      font-weight: 900;
+      line-height: 1.25;
+      cursor: pointer;
+      transition: transform .16s ease, filter .16s ease, box-shadow .16s ease;
+    }
+
+    .action-button:hover:not(:disabled) { filter: brightness(1.08); transform: translateY(-1px); }
+    .action-button:active:not(:disabled) { transform: translateY(3px); box-shadow: inset 0 2px 0 rgba(255,255,255,.1), 0 1px 0 #743208; }
+    .action-button:disabled { cursor: not-allowed; filter: grayscale(.65); opacity: .55; box-shadow: none; }
+    .action-button.full { width: 100%; }
+
+    .rules-screen {
+      display: grid;
+      place-items: center;
+      padding: 28px;
+      background:
+        linear-gradient(rgba(255,250,232,.4), rgba(255,250,232,.58)),
+        url("背景圖.png") center / cover no-repeat;
+    }
+
+    .rules-card {
+      width: min(760px, 100%);
+      padding: clamp(26px, 5vw, 50px);
+      border-radius: 32px;
+      background: rgba(255,255,250,.94);
+      box-shadow: var(--shadow);
+    }
+
+    .hello { margin: 12px 0 24px; color: #66573e; font-size: 1.08rem; }
+
+    .rules-list {
+      display: grid;
+      gap: 14px;
+      margin: 0 0 30px;
+      padding: 0;
+      list-style: none;
+      counter-reset: rules;
+    }
+
+    .rules-list li {
+      display: grid;
+      grid-template-columns: 38px 1fr;
+      gap: 12px;
+      align-items: start;
+      line-height: 1.65;
+      counter-increment: rules;
+    }
+
+    .rules-list li::before {
+      content: counter(rules);
+      display: grid;
+      place-items: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--yellow);
+      border: 2px solid var(--yellow-border);
+      font-weight: 900;
+    }
+
+    .game-screen {
+      min-height: 100svh;
+      padding: 20px clamp(14px, 3vw, 34px) 42px;
+      background:
+        radial-gradient(circle at top right, rgba(255,214,76,.22), transparent 34%),
+        linear-gradient(180deg, #fffaf0 0%, #f5f1e7 100%);
+    }
+
+    .game-shell { width: min(1280px, 100%); margin: 0 auto; }
+
+    .game-header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 18px;
+      align-items: end;
+      margin-bottom: 16px;
+    }
+
+    .status-cluster {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 9px;
+    }
+
+    .game-title {
+      margin: 0;
+      font-size: clamp(1.25rem, 3vw, 1.8rem);
+      font-weight: 900;
+    }
+
+    .score-pill {
+      min-width: 136px;
+      border: 3px solid var(--orange-dark);
+      border-radius: 999px;
+      padding: 9px 15px;
+      background: #fff;
+      color: var(--orange-dark);
+      text-align: center;
+      font-weight: 900;
+    }
+
+    .heart-meter {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 4px;
+      min-height: 42px;
+      border-radius: 999px;
+      padding: 5px 9px;
+      background: rgba(255,255,255,.88);
+      box-shadow: 0 4px 16px rgba(72,42,30,.12);
+    }
+
+    .heart-unit {
+      position: relative;
+      width: 31px;
+      height: 33px;
+      overflow: hidden;
+    }
+
+    .heart-unit::before,
+    .heart-fill::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: url("愛心.png") center / contain no-repeat;
+    }
+
+    .heart-unit::before { opacity: .18; filter: grayscale(1); }
+
+    .heart-fill {
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: var(--heart-fill, 100%);
+      overflow: hidden;
+    }
+
+    .heart-fill::before { width: 31px; }
+
+    .progress-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin: 12px 0 22px;
+    }
+
+    .progress-step {
+      height: 9px;
+      border-radius: 999px;
+      background: #d8d3c8;
+    }
+
+    .progress-step.done { background: var(--green); }
+    .progress-step.current { background: var(--yellow-strong); box-shadow: 0 0 0 3px rgba(248,185,39,.22); }
+
+    .question-card {
+      border: 1px solid #ded6c5;
+      border-radius: 28px;
+      padding: clamp(18px, 3vw, 30px);
+      background: rgba(255,255,255,.92);
+      box-shadow: 0 14px 38px rgba(71, 56, 26, .1);
+    }
+
+    .question-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 18px;
+      margin-bottom: 12px;
+    }
+
+    .question-number {
+      margin: 0 0 5px;
+      color: #9a5a10;
+      font-weight: 900;
+    }
+
+    .instruction { margin: 9px 0 0; color: var(--muted); line-height: 1.55; }
+
+    .diagram-wrap {
+      position: relative;
+      width: 100%;
+      margin: 18px 0 22px;
+      overflow: hidden;
+      border: 1px solid #e7dfd0;
+      border-radius: 22px;
+      background: linear-gradient(180deg, #fff 0%, #fffcf2 100%);
+    }
+
+    .diagram-stage {
+      position: relative;
+      width: 100%;
+      min-height: var(--stage-h, 410px);
+    }
+
+    .diagram-lines {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      pointer-events: none;
+    }
+
+    .diagram-node {
+      position: absolute;
+      left: var(--x);
+      top: var(--y);
+      z-index: 2;
+      display: grid;
+      place-items: center;
+      width: clamp(116px, 15vw, 190px);
+      min-height: 66px;
+      transform: translate(-50%, -50%);
+      border: 3px solid var(--yellow-border);
+      border-radius: 17px;
+      padding: 10px 12px;
+      background: var(--yellow);
+      color: #171717;
+      text-align: center;
+      font-size: clamp(.78rem, 1.4vw, 1.03rem);
+      font-weight: 800;
+      line-height: 1.28;
+      box-shadow: 0 4px 0 rgba(154, 107, 0, .13);
+    }
+
+    .diagram-node.long { width: clamp(145px, 19vw, 240px); }
+    .diagram-node.small { width: clamp(106px, 13vw, 160px); min-height: 56px; }
+
+    .diagram-node.slot {
+      border-style: dashed;
+      background: #fffef8;
+      color: #79683e;
+      cursor: pointer;
+      transition: border-color .18s ease, background .18s ease, transform .18s ease;
+    }
+
+    .diagram-node.slot:hover { background: #fff7d6; }
+    .diagram-node.slot.selected-target,
+    .diagram-node.slot.drag-over { border-color: #1769aa; background: #eaf5ff; transform: translate(-50%, -50%) scale(1.035); }
+    .diagram-node.slot.filled { border-style: solid; background: #fff0aa; color: var(--ink); }
+    .diagram-node.slot.correct { border-color: var(--green); background: #e4f6e9; color: #15562d; }
+    .diagram-node.slot.correct::after { content: "✓"; position: absolute; right: 7px; top: 4px; font-size: 1.1rem; }
+    .diagram-node.slot.wrong { border-color: var(--red); background: #ffebe8; animation: shake .34s ease; }
+
+    .slot-hint { font-size: .8rem; font-weight: 800; }
+
+    .answers-section { border-top: 1px solid #e5ddce; padding-top: 20px; }
+
+    .section-title { margin: 0 0 12px; font-size: 1.14rem; }
+
+    .answer-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .answer-card {
+      display: grid;
+      place-items: center;
+      min-height: 126px;
+      aspect-ratio: 1 / 1;
+      border: 3px solid #b47700;
+      border-radius: 20px;
+      padding: 14px;
+      background: linear-gradient(145deg, #ffe990, #ffd250);
+      color: #222;
+      box-shadow: 0 6px 0 #ae7909, 0 11px 20px rgba(103,72,0,.12);
+      text-align: center;
+      font-weight: 900;
+      line-height: 1.35;
+      cursor: grab;
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
+      transition: transform .16s ease, filter .16s ease, box-shadow .16s ease;
+    }
+
+    .answer-card:hover { filter: brightness(1.03); transform: translateY(-2px); }
+    .answer-card:active { cursor: grabbing; }
+    .answer-card.selected { border-color: #1769aa; background: #dcefff; box-shadow: 0 0 0 4px rgba(23,105,170,.18), 0 5px 0 #1769aa; transform: translateY(-2px); }
+    .answer-card.placed { visibility: hidden; pointer-events: none; }
+
+    .drag-ghost {
+      position: fixed;
+      z-index: 9999;
+      display: grid;
+      place-items: center;
+      width: 148px;
+      min-height: 100px;
+      border: 3px solid #1769aa;
+      border-radius: 18px;
+      padding: 12px;
+      background: #fff0a7;
+      box-shadow: 0 18px 34px rgba(0,0,0,.23);
+      text-align: center;
+      font-weight: 900;
+      line-height: 1.3;
+      pointer-events: none;
+      transform: translate(-50%, -50%) rotate(-2deg);
+    }
+
+    .feedback {
+      min-height: 29px;
+      margin: 16px 0 4px;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .feedback.error { color: var(--red); }
+    .feedback.success { color: var(--green); }
+
+    .hint-box {
+      max-width: 820px;
+      margin: 12px auto 0;
+      border-left: 6px solid #1769aa;
+      border-radius: 12px;
+      padding: 12px 15px;
+      background: #eaf5ff;
+      color: #194d74;
+      line-height: 1.6;
+    }
+
+    .hint-box strong { display: block; margin-bottom: 4px; }
+
+    .hint-box ul { margin: 0; padding-left: 1.35rem; }
+
+    .save-status {
+      min-height: 26px;
+      margin: 0 0 18px;
+      color: #4d5a4d;
+      font-weight: 800;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .improvement-screen {
+      position: relative;
+      display: grid;
+      place-items: end center;
+      min-height: 100svh;
+      padding: clamp(24px, 6vw, 62px);
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+
+    .improvement-screen::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,.02) 25%, rgba(0,0,0,.52) 100%);
+    }
+
+    .improvement-card {
+      position: relative;
+      z-index: 1;
+      width: min(760px, 100%);
+      border: 1px solid rgba(255,255,255,.8);
+      border-radius: 28px;
+      padding: clamp(24px, 5vw, 42px);
+      background: rgba(255,253,244,.92);
+      box-shadow: 0 22px 70px rgba(0,0,0,.28);
+      text-align: center;
+      backdrop-filter: blur(9px);
+      -webkit-backdrop-filter: blur(9px);
+      animation: rise .65s ease both;
+    }
+
+    .improvement-icon { margin-bottom: 8px; font-size: 2.3rem; }
+    .improvement-copy { margin: 14px auto 24px; max-width: 620px; font-size: clamp(1.04rem, 2.5vw, 1.3rem); line-height: 1.75; }
+
+    .complete-screen {
+      display: grid;
+      place-items: center;
+      min-height: 100svh;
+      padding: 24px;
+      background:
+        linear-gradient(rgba(240,255,239,.28), rgba(240,255,239,.45)),
+        url("空氣污染改善-3-環保城市.png") center / cover no-repeat;
+    }
+
+    .complete-card {
+      width: min(650px, 100%);
+      border-radius: 32px;
+      padding: clamp(28px, 6vw, 54px);
+      background: rgba(255,255,250,.94);
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    .trophy { font-size: 4.2rem; line-height: 1; }
+
+    .final-score {
+      display: inline-grid;
+      place-items: center;
+      min-width: 180px;
+      margin: 22px 0;
+      border: 4px solid var(--yellow-border);
+      border-radius: 24px;
+      padding: 15px 24px;
+      background: var(--yellow);
+      color: #71470b;
+      font-size: clamp(2rem, 7vw, 3.2rem);
+      font-weight: 900;
+    }
+
+    .white-fade {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      background: #fff;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .6s ease;
+    }
+
+    .white-fade.show { opacity: 1; pointer-events: all; }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translate(-50%, -50%); }
+      30% { transform: translate(calc(-50% - 7px), -50%); }
+      70% { transform: translate(calc(-50% + 7px), -50%); }
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 900px) {
+      .answer-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .answer-card { aspect-ratio: auto; min-height: 112px; }
+    }
+
+    @media (max-width: 600px) {
+      .hero-screen, .rules-screen { padding: 16px; }
+      .glass-panel, .rules-card { border-radius: 23px; }
+      .game-screen { padding: 14px 10px 34px; }
+      .game-header { grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: start; }
+      .status-cluster { align-items: flex-end; }
+      .score-pill { min-width: 0; padding: 7px 10px; font-size: .82rem; }
+      .heart-meter { gap: 1px; padding: 4px 6px; }
+      .heart-unit, .heart-fill::before { width: 25px; }
+      .heart-unit { height: 28px; }
+      .question-card { padding: 15px 10px 20px; border-radius: 20px; }
+      .question-head { display: block; }
+      .diagram-stage { min-height: var(--mobile-stage-h, 920px); }
+      .diagram-node {
+        left: var(--mx);
+        top: var(--my);
+        width: min(76vw, 250px);
+        min-height: 58px;
+        font-size: .91rem;
+      }
+      .diagram-node.long, .diagram-node.small { width: min(76vw, 250px); }
+      .answer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+      .answer-card { min-height: 135px; aspect-ratio: 1 / 1; padding: 10px; font-size: .92rem; }
+      .answer-card:nth-child(5) { grid-column: 1 / -1; justify-self: center; width: calc(50% - 5px); }
+      .controls { display: grid; grid-template-columns: 1fr; }
+      .controls .action-button { width: 100%; }
+      .improvement-screen { align-items: end; padding: 16px; }
+      .improvement-card { border-radius: 22px; }
+    }
+
+    @media (max-width: 1024px) and (orientation: portrait) {
+      .rotate-notice { display: flex; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main id="app"></main>
+  <div id="live-region" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+  <div id="white-fade" class="white-fade" aria-hidden="true"></div>
+  <noscript>此遊戲需要啟用 JavaScript。</noscript>
+
+  <script>
+  (() => {
+    "use strict";
+
+    const app = document.getElementById("app");
+    const liveRegion = document.getElementById("live-region");
+    const fadeLayer = document.getElementById("white-fade");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    // 部署 Code.gs 後，把 GAS 網頁應用程式的 /exec 網址貼在這裡。
+    const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxB11pPoYzJJPgfJT3bZWpbF8hhZ2pS186gp3aAOkgKUEmoifo1ndQY0Ef-_grLd1XfgQ/exec";
+
+    const copy = {
+      "zh-TW": {
+        eyebrow: "環境健康評量",
+        title: "空氣污染健康影響大挑戰",
+        intro: "從污染進入肺部，到影響全身器官，用三題認識空氣污染的健康風險。",
+        rotateNotice: "手機或平板建議橫放使用，系統圖會更清楚。",
+        name: "姓名",
+        namePlaceholder: "請輸入姓名",
+        language: "遊戲介面語言",
+        start: "開始遊戲",
+        nameError: "請輸入姓名後再開始。",
+        rulesTitle: "遊戲規則",
+        greeting: name => `${name}，你好！請先閱讀遊戲規則。`,
+        rules: [
+          "將答案拖曳到系統圖的正確空格；也可以先點答案，再點空格。",
+          "兩個空格都填滿後，按下確認。",
+          "全部答對才能進入下一題；答錯時可以繼續修改。",
+          "每答對一個空格得 1 分，每題兩格，三題滿分 6 分。"
+        ],
+        confirm: "確認",
+        gameTitle: "空氣污染健康影響大挑戰",
+        questionOf: (n, total) => `第 ${n} 題／共 ${total} 題`,
+        score: n => `目前得分：${n}／6`,
+        hearts: n => `剩餘愛心：${n} 顆`,
+        instruction: "將下方選項拖曳到正確空格，也可以先點答案，再點空格。",
+        dropHere: "拖曳到這裡",
+        answers: "答案選項",
+        reset: "重設本題",
+        notFilled: "還有空格尚未完成。",
+        wrong: n => `有 ${n} 個位置不正確，再試一次！`,
+        partial: "答對 1 個位置！另一個位置再試一次。",
+        hintTitle: "提示",
+        lostHalfHeart: "本次有錯誤，扣除半顆愛心。",
+        noHearts: "愛心已用完，但你仍可繼續完成挑戰。",
+        allCorrect: n => `全部答對！你已完成第 ${n} 題。`,
+        selected: text => `已選取「${text}」，請選擇一個空格。`,
+        placed: text => `已放入「${text}」。`,
+        removed: text => `已移除「${text}」。`,
+        slotEmptyLabel: n => `第 ${n} 個空格，目前未填答`,
+        slotFilledLabel: (n, text) => `第 ${n} 個空格，目前答案：${text}。按下可移除或替換`,
+        slotCorrectLabel: (n, text) => `第 ${n} 個空格，答案正確：${text}`,
+        improvementTitle: ["初步改善", "明顯改善", "環保城市"],
+        improvementText: [
+          "因為你答對了，城市獲得初步改善：減少廢氣、改用低煙電烤盤。",
+          "因為你答對了，城市獲得明顯改善：搭乘公車、騎自行車、增加綠化。",
+          "因為你答對了，城市成為環保城市：使用潔淨能源、發展大眾運輸、完全無廢氣。"
+        ],
+        next: "下一題",
+        results: "查看結果",
+        completeTitle: "恭喜完成挑戰！",
+        completeText: name => `${name}，你已完成空氣污染影響人體的三個階段。`,
+        finalScore: "最終得分",
+        heartsRemaining: n => `剩餘愛心：${n} 顆`,
+        saving: "正在將評量結果送到 Google 試算表…",
+        saved: "評量結果送出請求已完成，請至試算表確認。",
+        saveNotConfigured: "尚未設定 Google Apps Script 網址，結果目前只顯示在本機。",
+        saveFailed: "結果暫時無法送出，請檢查網路或 GAS 設定。",
+        replay: "再玩一次",
+        imageError: "背景圖片無法載入，遊戲仍可繼續。"
+      },
+      en: {
+        eyebrow: "Environmental Health Quiz",
+        title: "Air Pollution and Health Challenge",
+        intro: "Follow pollution from the airways to the whole body in three interactive questions.",
+        rotateNotice: "For a clearer diagram, use your phone or tablet in landscape orientation.",
+        name: "Name",
+        namePlaceholder: "Enter your name",
+        language: "Game language",
+        start: "Start Game",
+        nameError: "Enter your name to begin.",
+        rulesTitle: "How to Play",
+        greeting: name => `Hello, ${name}! Please read the rules first.`,
+        rules: [
+          "Drag each answer to the correct blank. You can also select an answer and then select a blank.",
+          "Fill both blanks, then select Confirm.",
+          "Both answers must be correct to continue. You can revise any incorrect answer.",
+          "Each correct blank is worth 1 point. There are 2 blanks per question and 6 points in total."
+        ],
+        confirm: "Confirm",
+        gameTitle: "Air Pollution and Health Challenge",
+        questionOf: (n, total) => `Question ${n} of ${total}`,
+        score: n => `Score: ${n} / 6`,
+        hearts: n => `Hearts remaining: ${n}`,
+        instruction: "Drag the choices into the correct blanks, or select a choice and then a blank.",
+        dropHere: "Drop here",
+        answers: "Answer choices",
+        reset: "Reset Question",
+        notFilled: "Some blanks are still empty.",
+        wrong: n => `${n} position${n === 1 ? " is" : "s are"} incorrect. Try again!`,
+        partial: "One answer is correct! Try the other position again.",
+        hintTitle: "Hint",
+        lostHalfHeart: "An answer was incorrect, so you lost half a heart.",
+        noHearts: "You have no hearts left, but you can still finish the challenge.",
+        allCorrect: n => `All correct! You completed question ${n}.`,
+        selected: text => `Selected “${text}”. Now choose a blank.`,
+        placed: text => `Placed “${text}”.`,
+        removed: text => `Removed “${text}”.`,
+        slotEmptyLabel: n => `Blank ${n}, currently empty`,
+        slotFilledLabel: (n, text) => `Blank ${n}, current answer: ${text}. Press to remove or replace`,
+        slotCorrectLabel: (n, text) => `Blank ${n}, correct answer: ${text}`,
+        improvementTitle: ["First Improvements", "Visible Improvements", "Eco-friendly City"],
+        improvementText: [
+          "Because you answered correctly, the city has begun to improve: fewer exhaust emissions and low-smoke electric grills.",
+          "Because you answered correctly, the city has improved noticeably: more bus travel, cycling, and green spaces.",
+          "Because you answered correctly, the city has become eco-friendly: clean energy, public transportation, and zero exhaust emissions."
+        ],
+        next: "Next Question",
+        results: "View Results",
+        completeTitle: "Challenge Complete!",
+        completeText: name => `${name}, you completed all three stages of air pollution's effects on the body.`,
+        finalScore: "Final score",
+        heartsRemaining: n => `Hearts remaining: ${n}`,
+        saving: "Sending your result to Google Sheets…",
+        saved: "The result request was sent. Please confirm it in Google Sheets.",
+        saveNotConfigured: "The Google Apps Script URL is not configured, so this result is only shown locally.",
+        saveFailed: "The result could not be sent. Check the network or GAS configuration.",
+        replay: "Play Again",
+        imageError: "A background image could not be loaded. You can still continue."
+      },
+      vi: {
+        eyebrow: "Đánh giá sức khỏe môi trường",
+        title: "Thử thách về ô nhiễm không khí và sức khỏe",
+        intro: "Tìm hiểu hành trình của chất ô nhiễm từ đường hô hấp đến toàn cơ thể qua ba câu hỏi tương tác.",
+        rotateNotice: "Nên xoay ngang điện thoại hoặc máy tính bảng để xem sơ đồ rõ hơn.",
+        name: "Họ và tên",
+        namePlaceholder: "Nhập họ và tên",
+        language: "Ngôn ngữ trò chơi",
+        start: "Bắt đầu trò chơi",
+        nameError: "Vui lòng nhập họ và tên để bắt đầu.",
+        rulesTitle: "Luật chơi",
+        greeting: name => `Xin chào ${name}! Hãy đọc luật chơi trước.`,
+        rules: [
+          "Kéo từng đáp án vào ô trống đúng. Bạn cũng có thể chọn đáp án trước, rồi chọn ô trống.",
+          "Điền cả hai ô trống rồi chọn Xác nhận.",
+          "Bạn phải trả lời đúng cả hai mới có thể tiếp tục. Có thể sửa đáp án chưa đúng.",
+          "Mỗi ô trống đúng được 1 điểm. Mỗi câu có 2 ô trống, tổng điểm tối đa là 6."
+        ],
+        confirm: "Xác nhận",
+        gameTitle: "Thử thách về ô nhiễm không khí và sức khỏe",
+        questionOf: (n, total) => `Câu ${n} / ${total}`,
+        score: n => `Điểm hiện tại: ${n} / 6`,
+        hearts: n => `Số tim còn lại: ${n}`,
+        instruction: "Kéo lựa chọn vào ô trống đúng, hoặc chọn một đáp án rồi chọn ô trống.",
+        dropHere: "Thả vào đây",
+        answers: "Các lựa chọn",
+        reset: "Đặt lại câu này",
+        notFilled: "Vẫn còn ô trống chưa được điền.",
+        wrong: n => `Có ${n} vị trí chưa đúng. Hãy thử lại!`,
+        partial: "Bạn đã trả lời đúng 1 vị trí! Hãy thử lại vị trí còn lại.",
+        hintTitle: "Gợi ý",
+        lostHalfHeart: "Có đáp án chưa đúng nên bạn bị trừ nửa trái tim.",
+        noHearts: "Bạn đã hết tim nhưng vẫn có thể tiếp tục hoàn thành thử thách.",
+        allCorrect: n => `Hoàn toàn chính xác! Bạn đã hoàn thành câu ${n}.`,
+        selected: text => `Đã chọn “${text}”. Bây giờ hãy chọn một ô trống.`,
+        placed: text => `Đã đặt “${text}”.`,
+        removed: text => `Đã xóa “${text}”.`,
+        slotEmptyLabel: n => `Ô trống ${n}, hiện chưa có đáp án`,
+        slotFilledLabel: (n, text) => `Ô trống ${n}, đáp án hiện tại: ${text}. Nhấn để xóa hoặc thay thế`,
+        slotCorrectLabel: (n, text) => `Ô trống ${n}, đáp án đúng: ${text}`,
+        improvementTitle: ["Cải thiện bước đầu", "Cải thiện rõ rệt", "Thành phố xanh"],
+        improvementText: [
+          "Nhờ bạn trả lời đúng, thành phố đã bước đầu được cải thiện: giảm khí thải và sử dụng bếp nướng điện ít khói.",
+          "Nhờ bạn trả lời đúng, thành phố đã được cải thiện rõ rệt: đi xe buýt, đi xe đạp và tăng thêm mảng xanh.",
+          "Nhờ bạn trả lời đúng, thành phố đã trở thành đô thị xanh: sử dụng năng lượng sạch, phát triển giao thông công cộng và hoàn toàn không có khí thải."
+        ],
+        next: "Câu tiếp theo",
+        results: "Xem kết quả",
+        completeTitle: "Chúc mừng bạn đã hoàn thành!",
+        completeText: name => `${name}, bạn đã hoàn thành ba giai đoạn về ảnh hưởng của ô nhiễm không khí đối với cơ thể.`,
+        finalScore: "Tổng điểm",
+        heartsRemaining: n => `Số tim còn lại: ${n}`,
+        saving: "Đang gửi kết quả đến Google Sheets…",
+        saved: "Yêu cầu gửi kết quả đã hoàn tất. Hãy kiểm tra trong Google Sheets.",
+        saveNotConfigured: "Chưa thiết lập URL Google Apps Script nên kết quả hiện chỉ được hiển thị trên thiết bị.",
+        saveFailed: "Không thể gửi kết quả. Hãy kiểm tra mạng hoặc cấu hình GAS.",
+        replay: "Chơi lại",
+        imageError: "Không thể tải một hình nền. Bạn vẫn có thể tiếp tục."
+      }
+    };
+
+    const txt = (zh, en, vi) => ({ "zh-TW": zh, en, vi });
+
+    const levels = [
+      {
+        id: "level-1",
+        title: txt("污染物進入肺部", "Pollutants Enter the Lungs", "Chất ô nhiễm đi vào phổi"),
+        height: 390,
+        mobileHeight: 850,
+        nodes: [
+          { id: "air", text: txt("吸入空氣", "Breathing in air", "Hít không khí"), x: 11, y: 17, mx: 50, my: 7, small: true },
+          { id: "pm", text: txt("PM2.5\n夾帶硫化物、硝酸鹽", "PM2.5 carrying\nsulfates and nitrates", "PM2.5 mang theo\nsunfat và nitrat"), x: 12, y: 48, mx: 50, my: 19, long: true },
+          { id: "gas", text: txt("SO₂、NO₂\n等氣狀污染物", "Gaseous pollutants\nsuch as SO₂ and NO₂", "Chất ô nhiễm dạng khí\nnhư SO₂ và NO₂"), x: 12, y: 79, mx: 50, my: 31, long: true },
+          { id: "airway", text: txt("污染物進入呼吸道", "Pollutants enter the respiratory tract", "Chất ô nhiễm đi vào đường hô hấp"), hint: txt("想想吸入污染空氣後，最先進入人體的通道。", "Think about the first body passage reached after polluted air is inhaled.", "Hãy nghĩ đến đường đi đầu tiên trong cơ thể sau khi hít không khí ô nhiễm."), x: 40, y: 48, mx: 50, my: 48, eligible: true, answerId: "a-airway", long: true },
+          { id: "deep", text: txt("深入肺部", "Travel deep into the lungs", "Đi sâu vào phổi"), hint: txt("這個步驟位於進入呼吸道之後、免疫細胞反應之前。", "This step occurs after entering the respiratory tract but before immune cells respond.", "Bước này xảy ra sau khi vào đường hô hấp nhưng trước khi tế bào miễn dịch phản ứng."), x: 65, y: 48, mx: 50, my: 65, eligible: true, answerId: "a-deep" },
+          { id: "macrophage", text: txt("巨噬細胞將污染物視為外敵", "Macrophages identify pollutants as invaders", "Đại thực bào xem chất ô nhiễm là tác nhân lạ"), hint: txt("污染物深入肺部後，會先被哪種免疫防禦機制辨識？", "After pollutants reach deep into the lungs, consider the immune defense that recognizes them.", "Sau khi chất ô nhiễm vào sâu trong phổi, hãy nghĩ đến cơ chế miễn dịch nhận diện chúng."), x: 88, y: 48, mx: 50, my: 83, eligible: true, answerId: "a-macrophage", long: true }
+        ],
+        edges: [["air","airway"],["pm","airway"],["gas","airway"],["airway","deep"],["deep","macrophage"]],
+        distractors: [
+          { id: "a-stomach", text: txt("進入胃部", "Enter the stomach", "Đi vào dạ dày") },
+          { id: "a-filtered", text: txt("污染物完全被過濾", "Pollutants are completely filtered out", "Chất ô nhiễm được lọc hoàn toàn") },
+          { id: "a-direct-blood", text: txt("污染物直接進入血液", "Pollutants enter the blood directly", "Chất ô nhiễm đi thẳng vào máu") }
+        ],
+        image: "空氣污染改善-1-初步改善.png"
+      },
+      {
+        id: "level-2",
+        title: txt("肺部發炎與纖維化", "Lung Inflammation and Fibrosis", "Viêm và xơ hóa phổi"),
+        height: 500,
+        mobileHeight: 1380,
+        nodes: [
+          { id: "recognize", text: txt("巨噬細胞辨識外敵", "Macrophages detect invaders", "Đại thực bào nhận diện tác nhân lạ"), x: 9, y: 18, mx: 50, my: 4, small: true },
+          { id: "stimulus", text: txt("污染物持續刺激", "Continuous pollutant exposure", "Chất ô nhiễm tiếp tục kích thích"), x: 9, y: 39, mx: 50, my: 12, small: true },
+          { id: "cytokine", text: txt("釋放發炎細胞激素 TNF-α", "Release inflammatory cytokine TNF-α", "Giải phóng cytokine gây viêm TNF-α"), hint: txt("巨噬細胞辨識外敵後，會先釋放訊號來啟動發炎反應。", "After detecting an invader, macrophages release a signal that starts inflammation.", "Sau khi nhận diện tác nhân lạ, đại thực bào giải phóng tín hiệu khởi động phản ứng viêm."), x: 25, y: 28, mx: 50, my: 22, eligible: true, answerId: "a-cytokine", long: true },
+          { id: "alarm", text: txt("發出發炎警報", "Trigger an inflammation alarm", "Phát tín hiệu cảnh báo viêm"), x: 43, y: 28, mx: 50, my: 31, small: true },
+          { id: "neutrophil", text: txt("中性球由血液趕來支援", "Neutrophils arrive from the blood", "Bạch cầu trung tính từ máu đến hỗ trợ"), hint: txt("發炎警報會召集血液中的防禦細胞前來支援。", "An inflammation alarm recruits defensive cells from the blood.", "Tín hiệu viêm sẽ huy động tế bào phòng vệ từ máu đến hỗ trợ."), x: 60, y: 28, mx: 50, my: 40, eligible: true, answerId: "a-neutrophil", long: true },
+          { id: "radicals", text: txt("釋放大量氧化自由基", "Release large amounts of oxidative free radicals", "Giải phóng nhiều gốc tự do oxy hóa"), x: 77, y: 28, mx: 50, my: 49, long: true },
+          { id: "sulfate", text: txt("硫化物、硝酸鹽", "Sulfates and nitrates", "Sunfat và nitrat"), x: 43, y: 66, mx: 50, my: 59, small: true },
+          { id: "superoxide", text: txt("形成超氧自由基", "Form superoxide radicals", "Hình thành gốc superoxide"), x: 60, y: 66, mx: 50, my: 68, small: true },
+          { id: "damage", text: txt("肺泡上皮細胞與細胞質受到氧化傷害", "Oxidative damage to alveolar epithelial cells and cytoplasm", "Tổn thương oxy hóa tế bào biểu mô phế nang và tế bào chất"), hint: txt("兩條自由基路徑在此匯合；想想它們會對肺泡細胞造成什麼結果。", "Two free-radical pathways converge here. Consider their effect on alveolar cells.", "Hai con đường gốc tự do hội tụ tại đây; hãy nghĩ đến tác động lên tế bào phế nang."), x: 86, y: 51, mx: 50, my: 79, eligible: true, answerId: "a-damage", long: true },
+          { id: "inflammation", text: txt("肺部發炎", "Lung inflammation", "Viêm phổi"), x: 86, y: 72, mx: 50, my: 89, small: true },
+          { id: "fibrosis", text: txt("肺部纖維化", "Lung fibrosis", "Xơ hóa phổi"), hint: txt("這是肺部長期發炎之後可能出現的結構性變化。", "This is a structural change that may follow long-term lung inflammation.", "Đây là thay đổi cấu trúc có thể xuất hiện sau khi phổi bị viêm kéo dài."), x: 86, y: 90, mx: 50, my: 97, eligible: true, answerId: "a-fibrosis", small: true }
+        ],
+        edges: [["recognize","cytokine"],["stimulus","cytokine"],["cytokine","alarm"],["alarm","neutrophil"],["neutrophil","radicals"],["sulfate","superoxide"],["radicals","damage"],["superoxide","damage"],["damage","inflammation"],["inflammation","fibrosis"]],
+        distractors: [
+          { id: "a-stop", text: txt("發炎反應立即停止", "Inflammation stops immediately", "Phản ứng viêm dừng ngay lập tức") },
+          { id: "a-recover", text: txt("肺部立刻恢復正常", "The lungs recover immediately", "Phổi lập tức trở lại bình thường") },
+          { id: "a-cleared", text: txt("所有污染物被立即清除", "All pollutants are removed immediately", "Tất cả chất ô nhiễm được loại bỏ ngay") }
+        ],
+        image: "空氣污染改善-2-明顯改善.png"
+      },
+      {
+        id: "level-3",
+        title: txt("全身性器官損傷", "Systemic Organ Damage", "Tổn thương cơ quan toàn thân"),
+        height: 500,
+        mobileHeight: 1120,
+        nodes: [
+          { id: "lung-inflammation", text: txt("肺部持續發炎", "Persistent lung inflammation", "Viêm phổi kéo dài"), x: 10, y: 30, mx: 50, my: 5, small: true },
+          { id: "more-radicals", text: txt("氧化自由基增加", "Increase in oxidative free radicals", "Gia tăng gốc tự do oxy hóa"), x: 10, y: 69, mx: 50, my: 16, small: true },
+          { id: "blood", text: txt("污染物與反應產物進入血液循環", "Pollutants and reaction products enter the bloodstream", "Chất ô nhiễm và sản phẩm phản ứng đi vào tuần hoàn máu"), hint: txt("肺部的物質若要影響遠端器官，需要透過哪個運輸系統？", "What transport system lets substances from the lungs affect distant organs?", "Chất từ phổi cần đi qua hệ vận chuyển nào để ảnh hưởng các cơ quan xa?"), x: 35, y: 50, mx: 50, my: 31, eligible: true, answerId: "a-blood", long: true },
+          { id: "systemic", text: txt("全身性氧化傷害", "Systemic oxidative damage", "Tổn thương oxy hóa toàn thân"), hint: txt("反應產物進入循環後，下一步是遍及全身的共同傷害。", "After reaction products enter circulation, the next step is a body-wide form of damage.", "Sau khi sản phẩm phản ứng vào tuần hoàn, bước tiếp theo là dạng tổn thương lan khắp cơ thể."), x: 60, y: 50, mx: 50, my: 46, eligible: true, answerId: "a-systemic", long: true },
+          { id: "brain", text: txt("大腦受損", "Brain damage", "Tổn thương não"), x: 86, y: 13, mx: 50, my: 61, small: true },
+          { id: "heart", text: txt("心臟受損", "Heart damage", "Tổn thương tim"), hint: txt("這個器官負責推動血液循環，也可能受到全身性氧化傷害。", "This organ pumps blood through the body and can be harmed by systemic oxidative stress.", "Cơ quan này bơm máu đi khắp cơ thể và có thể bị tổn thương do stress oxy hóa toàn thân."), x: 86, y: 38, mx: 50, my: 73, eligible: true, answerId: "a-heart", small: true },
+          { id: "liver", text: txt("肝臟受損", "Liver damage", "Tổn thương gan"), x: 86, y: 63, mx: 50, my: 85, small: true },
+          { id: "kidney", text: txt("腎臟受損", "Kidney damage", "Tổn thương thận"), hint: txt("想想負責過濾血液與排除廢物的器官。", "Think of the organ that filters blood and removes waste.", "Hãy nghĩ đến cơ quan lọc máu và loại bỏ chất thải."), x: 86, y: 88, mx: 50, my: 96, eligible: true, answerId: "a-kidney", small: true }
+        ],
+        edges: [["lung-inflammation","blood"],["more-radicals","blood"],["blood","systemic"],["systemic","brain"],["systemic","heart"],["systemic","liver"],["systemic","kidney"]],
+        distractors: [
+          { id: "a-only-lung", text: txt("影響僅停留在肺部", "Effects remain only in the lungs", "Ảnh hưởng chỉ giới hạn ở phổi") },
+          { id: "a-more-oxygen", text: txt("全身氧氣濃度上升", "Whole-body oxygen levels rise", "Nồng độ oxy toàn thân tăng") },
+          { id: "a-organs-improve", text: txt("器官功能全面提升", "Organ function improves", "Chức năng các cơ quan được cải thiện") }
+        ],
+        image: "空氣污染改善-3-環保城市.png"
+      }
+    ];
+
+    const state = {
+      screen: "login",
+      playerName: "",
+      locale: "zh-TW",
+      currentLevel: 0,
+      submissionId: "",
+      score: 0,
+      heartHalves: 10,
+      wrongAttempts: 0,
+      activeSlots: [],
+      answerOrders: [],
+      placements: {},
+      awarded: new Set(),
+      selectedAnswerId: null,
+      wrongSlots: new Set(),
+      hints: [],
+      feedback: "",
+      feedbackType: "",
+      isTransitioning: false,
+      hasSubmitted: false
+    };
+
+    let drag = null;
+    let resizeFrame = null;
+
+    function c() { return copy[state.locale] || copy["zh-TW"]; }
+    function l(localized) { return localized[state.locale] || localized["zh-TW"]; }
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>'"]/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[ch]));
+    }
+    function shuffle(items) {
+      const output = [...items];
+      for (let i = output.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [output[i], output[j]] = [output[j], output[i]];
+      }
+      return output;
+    }
+    function announce(message) {
+      liveRegion.textContent = "";
+      requestAnimationFrame(() => { liveRegion.textContent = message; });
+    }
+    function setDocumentLanguage() {
+      document.documentElement.lang = state.locale === "zh-TW" ? "zh-Hant" : state.locale;
+      document.title = c().title;
+    }
+
+    function initializeRound() {
+      state.currentLevel = 0;
+      state.submissionId = globalThis.crypto && crypto.randomUUID ? crypto.randomUUID() : `game-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+      state.score = 0;
+      state.heartHalves = 10;
+      state.wrongAttempts = 0;
+      state.placements = {};
+      state.awarded = new Set();
+      state.selectedAnswerId = null;
+      state.wrongSlots = new Set();
+      state.hints = [];
+      state.feedback = "";
+      state.feedbackType = "";
+      state.isTransitioning = false;
+      state.hasSubmitted = false;
+      state.activeSlots = levels.map(level => shuffle(level.nodes.filter(n => n.eligible).map(n => n.id)).slice(0, 2));
+      state.answerOrders = levels.map((level, index) => {
+        const correct = state.activeSlots[index].map(nodeId => {
+          const node = level.nodes.find(n => n.id === nodeId);
+          return { id: node.answerId, text: node.text };
+        });
+        return shuffle([...correct, ...level.distractors]).map(a => a.id);
+      });
+      preloadImages();
+    }
+
+    function getLevelAnswers(levelIndex) {
+      const level = levels[levelIndex];
+      const answers = [];
+      state.activeSlots[levelIndex].forEach(nodeId => {
+        const node = level.nodes.find(n => n.id === nodeId);
+        answers.push({ id: node.answerId, text: node.text });
+      });
+      answers.push(...level.distractors);
+      const map = new Map(answers.map(a => [a.id, a]));
+      return state.answerOrders[levelIndex].map(id => map.get(id));
+    }
+
+    function answerText(answerId) {
+      const answer = getLevelAnswers(state.currentLevel).find(a => a.id === answerId);
+      return answer ? l(answer.text) : "";
+    }
+
+    function currentSlots() {
+      const active = state.activeSlots[state.currentLevel] || [];
+      return active.map(id => levels[state.currentLevel].nodes.find(n => n.id === id));
+    }
+
+    function renderHearts() {
+      const accessibleValue = state.heartHalves / 2;
+      const hearts = Array.from({ length: 5 }, (_, index) => {
+        const remaining = state.heartHalves - index * 2;
+        const fill = remaining >= 2 ? 100 : remaining === 1 ? 50 : 0;
+        return `<span class="heart-unit" aria-hidden="true"><span class="heart-fill" style="--heart-fill:${fill}%"></span></span>`;
+      }).join("");
+      return `<div class="heart-meter" role="img" aria-label="${escapeHtml(c().hearts(accessibleValue))}">${hearts}</div>`;
+    }
+
+    function renderLogin(error = "") {
+      state.screen = "login";
+      setDocumentLanguage();
+      app.innerHTML = `
+        <section class="screen hero-screen" aria-labelledby="login-title">
+          <form class="glass-panel" id="login-form" novalidate>
+            <p class="eyebrow">${escapeHtml(c().eyebrow)}</p>
+            <h1 id="login-title">${escapeHtml(c().title)}</h1>
+            <p class="lead">${escapeHtml(c().intro)}</p>
+            <div class="rotate-notice" role="note">
+              <span class="rotate-icon" aria-hidden="true">↻</span>
+              <span>${escapeHtml(c().rotateNotice)}</span>
+            </div>
+            <div class="field">
+              <label for="player-name">${escapeHtml(c().name)}</label>
+              <input id="player-name" name="player-name" type="text" maxlength="30" autocomplete="name" value="${escapeHtml(state.playerName)}" placeholder="${escapeHtml(c().namePlaceholder)}" aria-describedby="name-error" aria-invalid="${error ? "true" : "false"}">
+              <p id="name-error" class="field-error" role="alert">${escapeHtml(error)}</p>
+            </div>
+            <div class="field">
+              <label for="language">${escapeHtml(c().language)}</label>
+              <select id="language" name="language">
+                <option value="zh-TW" ${state.locale === "zh-TW" ? "selected" : ""}>中文</option>
+                <option value="en" ${state.locale === "en" ? "selected" : ""}>English</option>
+                <option value="vi" ${state.locale === "vi" ? "selected" : ""}>Tiếng Việt</option>
+              </select>
+            </div>
+            <button class="action-button full" type="submit">${escapeHtml(c().start)}</button>
+          </form>
+        </section>`;
+
+      const form = document.getElementById("login-form");
+      const input = document.getElementById("player-name");
+      const language = document.getElementById("language");
+      input.addEventListener("input", () => { state.playerName = input.value; });
+      language.addEventListener("change", () => {
+        state.playerName = input.value;
+        state.locale = ["zh-TW", "en", "vi"].includes(language.value) ? language.value : "zh-TW";
+        renderLogin();
+        document.getElementById("language").focus();
+      });
+      form.addEventListener("submit", event => {
+        event.preventDefault();
+        state.playerName = input.value.trim();
+        if (!state.playerName) {
+          renderLogin(c().nameError);
+          document.getElementById("player-name").focus();
+          return;
+        }
+        initializeRound();
+        renderRules();
+      });
+    }
+
+    function renderRules() {
+      state.screen = "rules";
+      app.innerHTML = `
+        <section class="screen rules-screen" aria-labelledby="rules-title">
+          <div class="rules-card">
+            <p class="eyebrow">${escapeHtml(c().eyebrow)}</p>
+            <h1 id="rules-title">${escapeHtml(c().rulesTitle)}</h1>
+            <p class="hello">${escapeHtml(c().greeting(state.playerName))}</p>
+            <ol class="rules-list">${c().rules.map(rule => `<li>${escapeHtml(rule)}</li>`).join("")}</ol>
+            <button id="rules-confirm" class="action-button full" type="button">${escapeHtml(c().confirm)}</button>
+          </div>
+        </section>`;
+      document.getElementById("rules-confirm").addEventListener("click", () => {
+        renderGame();
+      });
+      document.getElementById("rules-title").setAttribute("tabindex", "-1");
+      document.getElementById("rules-title").focus();
+    }
+
+    function renderGame(options = {}) {
+      state.screen = "game";
+      const level = levels[state.currentLevel];
+      const active = new Set(state.activeSlots[state.currentLevel]);
+      const placedIds = new Set(Object.values(state.placements));
+      const allFilled = currentSlots().every(slot => state.placements[slot.id]);
+      const answerCards = getLevelAnswers(state.currentLevel);
+
+      app.innerHTML = `
+        <section class="screen game-screen" aria-labelledby="question-title">
+          <div class="game-shell">
+            <header class="game-header">
+              <p class="game-title">${escapeHtml(c().gameTitle)}</p>
+              <div class="status-cluster">
+                ${renderHearts()}
+                <div class="score-pill" aria-label="${escapeHtml(c().score(state.score))}">${escapeHtml(c().score(state.score))}</div>
+              </div>
+            </header>
+            <div class="progress-row" aria-hidden="true">
+              ${levels.map((_, i) => `<span class="progress-step ${i < state.currentLevel ? "done" : i === state.currentLevel ? "current" : ""}"></span>`).join("")}
+            </div>
+            <article class="question-card">
+              <div class="question-head">
+                <div>
+                  <p class="question-number">${escapeHtml(c().questionOf(state.currentLevel + 1, levels.length))}</p>
+                  <h1 id="question-title">${escapeHtml(l(level.title))}</h1>
+                  <p class="instruction">${escapeHtml(c().instruction)}</p>
+                </div>
+              </div>
+              <div class="diagram-wrap">
+                <div class="diagram-stage" id="diagram-stage" style="--stage-h:${level.height}px;--mobile-stage-h:${level.mobileHeight}px">
+                  <svg class="diagram-lines" id="diagram-lines" aria-hidden="true"></svg>
+                  ${level.nodes.map(node => renderNode(node, active)).join("")}
+                </div>
+              </div>
+              <section class="answers-section" aria-labelledby="answers-title">
+                <h2 class="section-title" id="answers-title">${escapeHtml(c().answers)}</h2>
+                <div class="answer-grid">
+                  ${answerCards.map(answer => {
+                    const placed = placedIds.has(answer.id);
+                    const selected = state.selectedAnswerId === answer.id;
+                    return `<button type="button" class="answer-card ${placed ? "placed" : ""} ${selected ? "selected" : ""}" data-answer-id="${escapeHtml(answer.id)}" aria-pressed="${selected}" ${placed || state.isTransitioning ? "disabled" : ""}>${formatText(l(answer.text))}</button>`;
+                  }).join("")}
+                </div>
+              </section>
+              <p class="feedback ${escapeHtml(state.feedbackType)}" id="feedback" aria-live="polite">${escapeHtml(state.feedback)}</p>
+              ${state.hints.length ? `<aside class="hint-box"><strong>💡 ${escapeHtml(c().hintTitle)}</strong><ul>${state.hints.map(hint => `<li>${escapeHtml(hint)}</li>`).join("")}</ul></aside>` : ""}
+              <div class="controls">
+                <button id="reset-question" class="action-button" type="button" ${state.isTransitioning ? "disabled" : ""}>${escapeHtml(c().reset)}</button>
+                <button id="check-answer" class="action-button" type="button" ${!allFilled || state.isTransitioning ? "disabled" : ""}>${escapeHtml(c().confirm)}</button>
+              </div>
+            </article>
+          </div>
+        </section>`;
+
+      bindGameEvents();
+      scheduleDraw();
+      if (options.focusTitle) {
+        const title = document.getElementById("question-title");
+        title.setAttribute("tabindex", "-1");
+        title.focus();
+      } else if (options.focusSelector) {
+        const target = document.querySelector(options.focusSelector);
+        if (target) target.focus();
+      }
+    }
+
+    function renderNode(node, active) {
+      const baseClass = `diagram-node ${node.long ? "long" : ""} ${node.small ? "small" : ""}`;
+      const style = `--x:${node.x}%;--y:${node.y}%;--mx:${node.mx}%;--my:${node.my}%`;
+      if (!active.has(node.id)) {
+        return `<div class="${baseClass}" style="${style}" data-node-id="${escapeHtml(node.id)}">${formatText(l(node.text))}</div>`;
+      }
+      const placedId = state.placements[node.id];
+      const isCorrect = state.awarded.has(node.id);
+      const isWrong = state.wrongSlots.has(node.id);
+      const display = placedId ? formatText(answerText(placedId)) : `<span class="slot-hint">${escapeHtml(c().dropHere)}</span>`;
+      const slotIndex = state.activeSlots[state.currentLevel].indexOf(node.id) + 1;
+      const aria = isCorrect ? c().slotCorrectLabel(slotIndex, answerText(placedId)) : placedId ? c().slotFilledLabel(slotIndex, answerText(placedId)) : c().slotEmptyLabel(slotIndex);
+      return `<button type="button" class="${baseClass} slot ${placedId ? "filled" : ""} ${isCorrect ? "correct" : ""} ${isWrong ? "wrong" : ""} ${state.selectedAnswerId && !isCorrect ? "selected-target" : ""}" style="${style}" data-node-id="${escapeHtml(node.id)}" data-slot-id="${escapeHtml(node.id)}" aria-label="${escapeHtml(aria)}" ${isCorrect || state.isTransitioning ? "disabled" : ""}>${display}</button>`;
+    }
+
+    function formatText(text) {
+      return escapeHtml(text).replace(/\n/g, "<br>");
+    }
+
+    function bindGameEvents() {
+      document.querySelectorAll(".answer-card:not(:disabled)").forEach(card => {
+        card.addEventListener("click", onAnswerClick);
+        card.addEventListener("pointerdown", onPointerDown);
+      });
+      document.querySelectorAll(".diagram-node.slot:not(:disabled)").forEach(slot => slot.addEventListener("click", onSlotClick));
+      document.getElementById("reset-question").addEventListener("click", resetQuestion);
+      document.getElementById("check-answer").addEventListener("click", checkAnswers);
+    }
+
+    function onAnswerClick(event) {
+      if (event.currentTarget.dataset.suppressClick === "true") {
+        event.currentTarget.dataset.suppressClick = "false";
+        return;
+      }
+      const id = event.currentTarget.dataset.answerId;
+      state.selectedAnswerId = state.selectedAnswerId === id ? null : id;
+      state.feedback = state.selectedAnswerId ? c().selected(answerText(id)) : "";
+      state.feedbackType = "";
+      renderGame({ focusSelector: state.selectedAnswerId ? `[data-answer-id="${id}"]` : "#answers-title" });
+      if (state.selectedAnswerId) announce(c().selected(answerText(id)));
+    }
+
+    function onSlotClick(event) {
+      const slotId = event.currentTarget.dataset.slotId;
+      if (state.awarded.has(slotId)) return;
+      if (state.selectedAnswerId) {
+        placeAnswer(state.selectedAnswerId, slotId);
+      } else if (state.placements[slotId]) {
+        const removedText = answerText(state.placements[slotId]);
+        delete state.placements[slotId];
+        state.wrongSlots.delete(slotId);
+        state.hints = [];
+        state.feedback = c().removed(removedText);
+        state.feedbackType = "";
+        renderGame({ focusSelector: `[data-slot-id="${slotId}"]` });
+        announce(state.feedback);
+      }
+    }
+
+    function placeAnswer(answerId, slotId) {
+      if (state.awarded.has(slotId) || state.isTransitioning) return;
+      Object.keys(state.placements).forEach(existingSlot => {
+        if (state.placements[existingSlot] === answerId && !state.awarded.has(existingSlot)) delete state.placements[existingSlot];
+      });
+      state.placements[slotId] = answerId;
+      state.selectedAnswerId = null;
+      state.wrongSlots.delete(slotId);
+      state.hints = [];
+      state.feedback = c().placed(answerText(answerId));
+      state.feedbackType = "";
+      renderGame({ focusSelector: `[data-slot-id="${slotId}"]` });
+      announce(state.feedback);
+    }
+
+    function resetQuestion() {
+      currentSlots().forEach(slot => {
+        if (!state.awarded.has(slot.id)) delete state.placements[slot.id];
+      });
+      state.selectedAnswerId = null;
+      state.wrongSlots = new Set();
+      state.hints = [];
+      state.feedback = "";
+      state.feedbackType = "";
+      renderGame({ focusSelector: "#reset-question" });
+    }
+
+    function checkAnswers() {
+      const slots = currentSlots();
+      if (!slots.every(slot => state.placements[slot.id])) {
+        state.feedback = c().notFilled;
+        state.feedbackType = "error";
+        renderGame({ focusSelector: "#check-answer" });
+        announce(state.feedback);
+        return;
+      }
+
+      let newlyCorrect = 0;
+      state.wrongSlots = new Set();
+      slots.forEach(slot => {
+        if (state.awarded.has(slot.id)) return;
+        if (state.placements[slot.id] === slot.answerId) {
+          state.awarded.add(slot.id);
+          state.score += 1;
+          newlyCorrect += 1;
+        } else {
+          state.wrongSlots.add(slot.id);
+        }
+      });
+
+      const allCorrect = slots.every(slot => state.awarded.has(slot.id));
+      if (allCorrect) {
+        state.hints = [];
+        state.feedback = c().allCorrect(state.currentLevel + 1);
+        state.feedbackType = "success";
+        state.isTransitioning = true;
+        renderGame();
+        announce(state.feedback);
+        window.setTimeout(transitionToImprovement, reduceMotion.matches ? 40 : 700);
+      } else {
+        state.heartHalves = Math.max(0, state.heartHalves - 1);
+        state.wrongAttempts += 1;
+        state.hints = [...state.wrongSlots].map(slotId => {
+          const node = levels[state.currentLevel].nodes.find(item => item.id === slotId);
+          return node && node.hint ? l(node.hint) : c().instruction;
+        });
+        const heartNotice = `${c().lostHalfHeart}${state.heartHalves === 0 ? ` ${c().noHearts}` : ""}`;
+        state.feedback = `${newlyCorrect ? c().partial : c().wrong(state.wrongSlots.size)} ${heartNotice}`;
+        state.feedbackType = newlyCorrect ? "success" : "error";
+        renderGame({ focusSelector: "#check-answer" });
+        announce(state.feedback);
+      }
+    }
+
+    function transitionToImprovement() {
+      fadeLayer.classList.add("show");
+      const delay = reduceMotion.matches ? 20 : 620;
+      window.setTimeout(() => {
+        renderImprovement();
+        requestAnimationFrame(() => requestAnimationFrame(() => fadeLayer.classList.remove("show")));
+      }, delay);
+    }
+
+    function renderImprovement() {
+      state.screen = "improvement";
+      state.isTransitioning = false;
+      const level = levels[state.currentLevel];
+      const isLast = state.currentLevel === levels.length - 1;
+      app.innerHTML = `
+        <section class="screen improvement-screen" style="background-image:url('${level.image}')" aria-labelledby="improvement-title">
+          <div class="improvement-card">
+            <div class="improvement-icon" aria-hidden="true">🌿</div>
+            <p class="eyebrow">${escapeHtml(c().questionOf(state.currentLevel + 1, levels.length))}</p>
+            <h1 id="improvement-title">${escapeHtml(c().improvementTitle[state.currentLevel])}</h1>
+            <p class="improvement-copy">${escapeHtml(c().improvementText[state.currentLevel])}</p>
+            <button id="improvement-next" class="action-button" type="button">${escapeHtml(isLast ? c().results : c().next)}</button>
+          </div>
+        </section>`;
+      const title = document.getElementById("improvement-title");
+      title.setAttribute("tabindex", "-1");
+      title.focus();
+      document.getElementById("improvement-next").addEventListener("click", () => {
+        if (isLast) {
+          renderComplete();
+        } else {
+          state.currentLevel += 1;
+          state.placements = {};
+          state.selectedAnswerId = null;
+          state.wrongSlots = new Set();
+          state.hints = [];
+          state.feedback = "";
+          state.feedbackType = "";
+          renderGame({ focusTitle: true });
+        }
+      });
+    }
+
+    function renderComplete() {
+      state.screen = "complete";
+      app.innerHTML = `
+        <section class="screen complete-screen" aria-labelledby="complete-title">
+          <div class="complete-card">
+            <div class="trophy" aria-hidden="true">🏆</div>
+            <p class="eyebrow">${escapeHtml(c().eyebrow)}</p>
+            <h1 id="complete-title">${escapeHtml(c().completeTitle)}</h1>
+            <p class="improvement-copy">${escapeHtml(c().completeText(state.playerName))}</p>
+            <div>
+              <span class="sr-only">${escapeHtml(c().finalScore)}</span>
+              <div class="final-score" aria-label="${escapeHtml(`${c().finalScore}: ${state.score} / 6`)}">${state.score}／6</div>
+            </div>
+            <p class="hello">${escapeHtml(c().heartsRemaining(state.heartHalves / 2))}</p>
+            <p class="save-status" id="save-status" aria-live="polite"></p>
+            <button id="replay" class="action-button" type="button">${escapeHtml(c().replay)}</button>
+          </div>
+        </section>`;
+      const title = document.getElementById("complete-title");
+      title.setAttribute("tabindex", "-1");
+      title.focus();
+      document.getElementById("replay").addEventListener("click", () => {
+        initializeRound();
+        renderGame({ focusTitle: true });
+      });
+      submitResult();
+    }
+
+    async function submitResult() {
+      const status = document.getElementById("save-status");
+      if (!status || state.hasSubmitted) return;
+      const configured = /^https:\/\/script\.google\.com\/macros\/s\/.+\/exec(?:\?.*)?$/.test(GAS_WEB_APP_URL);
+      if (!configured) {
+        status.textContent = c().saveNotConfigured;
+        return;
+      }
+      state.hasSubmitted = true;
+      status.textContent = c().saving;
+      const payload = {
+        submissionId: state.submissionId,
+        playerName: state.playerName,
+        locale: state.locale,
+        score: state.score,
+        maxScore: 6,
+        heartsRemaining: state.heartHalves / 2,
+        wrongAttempts: state.wrongAttempts,
+        activeSlots: state.activeSlots.map((slots, index) => ({ level: index + 1, slots })),
+        completedAt: new Date().toISOString(),
+        gameVersion: "1.1"
+      };
+      try {
+        await fetch(GAS_WEB_APP_URL, {
+          method: "POST",
+          mode: "no-cors",
+          cache: "no-store",
+          redirect: "follow",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload)
+        });
+        status.textContent = c().saved;
+      } catch (error) {
+        state.hasSubmitted = false;
+        status.textContent = c().saveFailed;
+      }
+    }
+
+    function drawConnections() {
+      if (state.screen !== "game") return;
+      const stage = document.getElementById("diagram-stage");
+      const svg = document.getElementById("diagram-lines");
+      if (!stage || !svg) return;
+      const stageRect = stage.getBoundingClientRect();
+      svg.setAttribute("viewBox", `0 0 ${stageRect.width} ${stageRect.height}`);
+      const level = levels[state.currentLevel];
+      let paths = `<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#676861"></path></marker></defs>`;
+      level.edges.forEach(([fromId, toId]) => {
+        const from = stage.querySelector(`[data-node-id="${fromId}"]`);
+        const to = stage.querySelector(`[data-node-id="${toId}"]`);
+        if (!from || !to) return;
+        const a = from.getBoundingClientRect();
+        const b = to.getBoundingClientRect();
+        let x1, y1, x2, y2, d;
+        if (window.innerWidth <= 600) {
+          x1 = a.left + a.width / 2 - stageRect.left;
+          y1 = a.bottom - stageRect.top;
+          x2 = b.left + b.width / 2 - stageRect.left;
+          y2 = b.top - stageRect.top;
+          const mid = y1 + (y2 - y1) * .5;
+          d = `M ${x1} ${y1} C ${x1} ${mid}, ${x2} ${mid}, ${x2} ${y2}`;
+        } else {
+          x1 = a.right - stageRect.left;
+          y1 = a.top + a.height / 2 - stageRect.top;
+          x2 = b.left - stageRect.left;
+          y2 = b.top + b.height / 2 - stageRect.top;
+          const mid = x1 + (x2 - x1) * .5;
+          d = `M ${x1} ${y1} C ${mid} ${y1}, ${mid} ${y2}, ${x2} ${y2}`;
+        }
+        paths += `<path d="${d}" fill="none" stroke="#676861" stroke-width="2" marker-end="url(#arrow)"/>`;
+      });
+      svg.innerHTML = paths;
+    }
+
+    function scheduleDraw() {
+      cancelAnimationFrame(resizeFrame);
+      resizeFrame = requestAnimationFrame(drawConnections);
+    }
+
+    function onPointerDown(event) {
+      if (event.button !== 0 && event.pointerType === "mouse") return;
+      const card = event.currentTarget;
+      drag = {
+        pointerId: event.pointerId,
+        answerId: card.dataset.answerId,
+        startX: event.clientX,
+        startY: event.clientY,
+        moved: false,
+        card,
+        ghost: null,
+        target: null
+      };
+      card.setPointerCapture(event.pointerId);
+      card.addEventListener("pointermove", onPointerMove);
+      card.addEventListener("pointerup", onPointerUp);
+      card.addEventListener("pointercancel", cancelDrag);
+    }
+
+    function onPointerMove(event) {
+      if (!drag || event.pointerId !== drag.pointerId) return;
+      const distance = Math.hypot(event.clientX - drag.startX, event.clientY - drag.startY);
+      if (!drag.moved && distance < 7) return;
+      if (!drag.moved) {
+        drag.moved = true;
+        drag.ghost = document.createElement("div");
+        drag.ghost.className = "drag-ghost";
+        drag.ghost.innerHTML = formatText(answerText(drag.answerId));
+        document.body.appendChild(drag.ghost);
+      }
+      drag.ghost.style.left = `${event.clientX}px`;
+      drag.ghost.style.top = `${event.clientY}px`;
+      document.querySelectorAll(".drag-over").forEach(el => el.classList.remove("drag-over"));
+      const hit = document.elementFromPoint(event.clientX, event.clientY);
+      const target = hit && hit.closest(".diagram-node.slot:not(:disabled)");
+      drag.target = target || null;
+      if (drag.target) drag.target.classList.add("drag-over");
+    }
+
+    function onPointerUp(event) {
+      if (!drag || event.pointerId !== drag.pointerId) return;
+      const { moved, target, answerId, card } = drag;
+      if (moved) card.dataset.suppressClick = "true";
+      cleanupDrag();
+      if (moved && target) placeAnswer(answerId, target.dataset.slotId);
+    }
+
+    function cancelDrag() { cleanupDrag(); }
+
+    function cleanupDrag() {
+      if (!drag) return;
+      document.querySelectorAll(".drag-over").forEach(el => el.classList.remove("drag-over"));
+      if (drag.ghost) drag.ghost.remove();
+      drag.card.removeEventListener("pointermove", onPointerMove);
+      drag.card.removeEventListener("pointerup", onPointerUp);
+      drag.card.removeEventListener("pointercancel", cancelDrag);
+      drag = null;
+    }
+
+    function preloadImages() {
+      levels.forEach(level => {
+        const image = new Image();
+        image.onerror = () => announce(c().imageError);
+        image.src = level.image;
+      });
+    }
+
+    window.addEventListener("resize", scheduleDraw, { passive: true });
+    window.addEventListener("keydown", event => {
+      if (event.key === "Escape") {
+        cleanupDrag();
+        if (state.selectedAnswerId && state.screen === "game") {
+          state.selectedAnswerId = null;
+          state.feedback = "";
+          renderGame();
+        }
+      }
+    });
+
+    renderLogin();
+  })();
+  </script>
+</body>
+</html>
