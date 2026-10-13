@@ -388,6 +388,17 @@
     .diagram-node.long { width: clamp(145px, 19vw, 240px); }
     .diagram-node.small { width: clamp(106px, 13vw, 160px); min-height: 56px; }
 
+    @media (min-width: 601px) {
+      .diagram-stage.level-2 .diagram-node {
+        width: clamp(100px, 11vw, 142px);
+        padding-inline: 9px;
+        font-size: clamp(.7rem, 1.05vw, .9rem);
+      }
+      .diagram-stage.level-2 .diagram-node.long { width: clamp(122px, 14vw, 180px); }
+      .diagram-stage.level-2 .diagram-node.small { width: clamp(96px, 10.5vw, 136px); }
+      .diagram-stage.level-3 .diagram-node.long { width: clamp(130px, 16vw, 205px); }
+    }
+
     .diagram-node.slot {
       border-style: dashed;
       background: #fffef8;
@@ -672,7 +683,7 @@
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
     // 部署 Code.gs 後，把 GAS 網頁應用程式的 /exec 網址貼在這裡。
-    const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxB11pPoYzJJPgfJT3bZWpbF8hhZ2pS186gp3aAOkgKUEmoifo1ndQY0Ef-_grLd1XfgQ/exec";
+    const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzKfRrfOQaorBBwPDPpRKoHqAEy-liQPr3p2wcUn9dIrgt0FFv5aZnC5xUI2zpZF6VFKw/exec";
 
     const copy = {
       "zh-TW": {
@@ -1136,7 +1147,7 @@
                 </div>
               </div>
               <div class="diagram-wrap">
-                <div class="diagram-stage" id="diagram-stage" style="--stage-h:${level.height}px;--mobile-stage-h:${level.mobileHeight}px">
+                <div class="diagram-stage level-${state.currentLevel + 1}" id="diagram-stage" style="--stage-h:${level.height}px;--mobile-stage-h:${level.mobileHeight}px">
                   <svg class="diagram-lines" id="diagram-lines" aria-hidden="true"></svg>
                   ${level.nodes.map(node => renderNode(node, active)).join("")}
                 </div>
@@ -1423,7 +1434,7 @@
       const stageRect = stage.getBoundingClientRect();
       svg.setAttribute("viewBox", `0 0 ${stageRect.width} ${stageRect.height}`);
       const level = levels[state.currentLevel];
-      let paths = `<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#676861"></path></marker></defs>`;
+      let paths = `<defs><marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,8 L11,4 z" fill="#5f625d"></path></marker></defs>`;
       level.edges.forEach(([fromId, toId]) => {
         const from = stage.querySelector(`[data-node-id="${fromId}"]`);
         const to = stage.querySelector(`[data-node-id="${toId}"]`);
@@ -1439,14 +1450,40 @@
           const mid = y1 + (y2 - y1) * .5;
           d = `M ${x1} ${y1} C ${x1} ${mid}, ${x2} ${mid}, ${x2} ${y2}`;
         } else {
-          x1 = a.right - stageRect.left;
-          y1 = a.top + a.height / 2 - stageRect.top;
-          x2 = b.left - stageRect.left;
-          y2 = b.top + b.height / 2 - stageRect.top;
-          const mid = x1 + (x2 - x1) * .5;
-          d = `M ${x1} ${y1} C ${mid} ${y1}, ${mid} ${y2}, ${x2} ${y2}`;
+          const horizontalGap = b.left - a.right;
+          const downwardGap = b.top - a.bottom;
+          const upwardGap = a.top - b.bottom;
+          if (horizontalGap >= 10) {
+            x1 = a.right - stageRect.left;
+            y1 = a.top + a.height / 2 - stageRect.top;
+            x2 = b.left - stageRect.left;
+            y2 = b.top + b.height / 2 - stageRect.top;
+            const mid = x1 + (x2 - x1) * .5;
+            d = `M ${x1} ${y1} C ${mid} ${y1}, ${mid} ${y2}, ${x2} ${y2}`;
+          } else if (downwardGap >= 8) {
+            x1 = a.left + a.width / 2 - stageRect.left;
+            y1 = a.bottom - stageRect.top;
+            x2 = b.left + b.width / 2 - stageRect.left;
+            y2 = b.top - stageRect.top;
+            const mid = y1 + (y2 - y1) * .5;
+            d = `M ${x1} ${y1} C ${x1} ${mid}, ${x2} ${mid}, ${x2} ${y2}`;
+          } else if (upwardGap >= 8) {
+            x1 = a.left + a.width / 2 - stageRect.left;
+            y1 = a.top - stageRect.top;
+            x2 = b.left + b.width / 2 - stageRect.left;
+            y2 = b.bottom - stageRect.top;
+            const mid = y1 + (y2 - y1) * .5;
+            d = `M ${x1} ${y1} C ${x1} ${mid}, ${x2} ${mid}, ${x2} ${y2}`;
+          } else {
+            x1 = a.right - stageRect.left;
+            y1 = a.top + a.height / 2 - stageRect.top;
+            x2 = b.left - stageRect.left;
+            y2 = b.top + b.height / 2 - stageRect.top;
+            const routeY = Math.max(12, Math.min(y1, y2) - 24);
+            d = `M ${x1} ${y1} C ${x1 + 18} ${y1}, ${x1 + 18} ${routeY}, ${(x1 + x2) / 2} ${routeY} S ${x2 - 18} ${y2}, ${x2} ${y2}`;
+          }
         }
-        paths += `<path d="${d}" fill="none" stroke="#676861" stroke-width="2" marker-end="url(#arrow)"/>`;
+        paths += `<path d="${d}" fill="none" stroke="#5f625d" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>`;
       });
       svg.innerHTML = paths;
     }
